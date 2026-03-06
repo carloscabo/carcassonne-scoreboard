@@ -1,0 +1,24 @@
+@import "minireset.css";
+@import "src/vars.scss";
+@import "src/mixins.scss";
+@import "src/type.scss";
+@import "src/layout.scss";
+@import "src/buttons.scss";
+@import "src/score-control-block.scss";
+@import "src/modal-dialog.scss";
+
+// Views
+@import "src/view-choose-game-mode.scss";
+
+@import "src/starwars.scss";
+@import "src/classic.scss";
+
+body {
+  // background-color: pink;
+  overflow: hidden;
+  background-color: $c-ui-dark-bg;
+  background-position: 50%;
+  background-repeat: repeat;
+
+  color: #fff;
+}

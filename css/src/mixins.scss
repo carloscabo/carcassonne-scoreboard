@@ -1,0 +1,112 @@
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+@mixin media($breakpoint) {
+  @media only screen and (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin tablet() {
+  @media only screen
+  and (min-device-width : 768px)
+  and (max-device-width : 1024px) {
+    @content;
+  }
+}
+
+@mixin tablet-landscape() {
+  @media only screen
+  and (min-device-width : 768px)
+  and (max-device-width : 1024px)
+  and (orientation : landscape) {
+    @content;
+  }
+}
+
+@mixin tablet-portrait() {
+  @media only screen
+  and (min-device-width : 768px)
+  and (max-device-width : 1024px)
+  and (orientation : portrait) {
+    @content;
+  }
+}
+
+@function flex-grid($columns, $container-columns: $max-columns, $gutter-width: $gutter) {
+  $width: $columns * $column + ($columns - 1) * $gutter-width;
+  $container-width: $container-columns * $column + ($container-columns - 1) * $gutter-width;
+  @return percentage($width / $container-width);
+}
+
+// keyframes mixin
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-ms-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+@keyframes(scrollStarwarsBg) {
+  0% {
+    transform: translate3d(0,0,0);
+  }
+  100% {
+    transform: translate3d(0,-512px,0);
+  }
+}
+
+@keyframes(scrollClassicBg) {
+  0% {
+    transform: translate3d(0,0,0);
+  }
+  100% {
+    transform: translate3d(0,-768px,0);
+  }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+@-webkit-keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+@keyframes pulse_border {
+  0% { border-color: $c-ui-med-bg; }
+  50% { border-color: #fff; }
+  100% { border-color: $c-ui-med-bg; }
+}
+
+@-webkit-keyframes pulse_border {
+  0% { border-color: $c-ui-med-bg; }
+  50% { border-color: #fff; }
+  100% { border-color: $c-ui-med-bg; }
+}
+
+//
+// Mobile
+//
+@include media($mobile) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}

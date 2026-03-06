@@ -1,0 +1,39 @@
+// Colors
+
+$c-ui-dark-bg: #161616;
+$c-ui-med-bg: #242424;
+$c-ui-bg-disabled: #71706A;
+$c-ui-disabled: #666;
+$c-ui-yellow: #FFE81F;
+
+// Classic
+$c-classic-bg-red: #FF4242;
+$c-classic-bg-black: #71706A;
+$c-classic-bg-blue: #1B76E2;
+$c-classic-bg-pink: #FF63FD;
+$c-classic-bg-green: #A3DB39;
+$c-classic-bg-yellow: #FFE81F;
+
+// SW
+$c-sw-bg-red: #FF2E1E;
+$c-sw-bg-black: #71706A;
+$c-sw-bg-green: #9DE21B;
+$c-sw-bg-white: #FFFFFD;
+$c-sw-bg-orange: #FFA006;
+
+// Buttons
+$b-mobile: 40px;
+$b-tablet: 64px;
+
+// Grid / Layout
+$column: 80px; // Column Width
+$gutter: 20px; // Gutter Width
+$max-columns: 12; // Total Columns For Main Container
+$max-width: 1212px;
+
+// Responsive breakpoints
+$mobile: 767px;
+$tablet: 1023px;
+$small-desktop: 1179px;
+$medium-desktop: 1264px;
+

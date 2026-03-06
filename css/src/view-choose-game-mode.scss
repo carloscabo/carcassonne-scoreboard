@@ -1,0 +1,96 @@
+//
+// Mobile first
+//
+.view-choose-game-mode {
+  .select-game {
+    display: block;
+    width: 100%; height: 200px;
+    max-width: 480px;
+    margin: 8px 0;
+    background: $c-ui-dark-bg;
+    border: 4px solid #242424;
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    input[type=radio] {
+      visibility: hidden;
+    }
+
+    &.is-selected {
+      border-color: $c-ui-yellow;
+    }
+
+    &.is-disabled {
+      filter: brightness(0.5) contrast(90%) grayscale(100%);
+    }
+
+    &.classic {
+      background-image: url(/static/img/logo-carcassonne.png), url(/static/img/bg-tile-classic.png);
+      background-position: 50%, 50%;
+      background-repeat: no-repeat, repeat;
+      background-size: calc( 100% - 40px ) auto, auto;
+    }
+
+    &.starwars {
+      background-image: url(/static/img/logo-carcassonne-starwars.png), url(/static/img/bg-tile-starwars.jpg);
+      background-position: 50%, 50%;
+      background-repeat: no-repeat, repeat;
+      background-size: auto 80%, auto;
+    }
+  }
+}
+
+//
+// Orientacion apaisada / Landscape mobile
+//
+@media screen and (orientation: landscape) {
+  .view-choose-game-mode {
+    .select-game {
+      &.classic {
+        background-size: 200px auto, auto;
+      }
+      &.starwars {
+        background-size: auto 90px, auto;
+      }
+    }
+  }
+}
+
+//
+// Tablet
+//
+@media screen and (min-width: 768px) {
+  .view-choose-game-mode {
+    .select-game {
+      &.classic {
+        background-size: 390px auto, auto;
+      }
+      &.starwars {
+        background-size: auto 180px, auto;
+      }
+    }
+  }
+}
+
+//
+// Tablet Horizontal
+//
+@media screen and (min-width: 768px) and (orientation: landscape) {
+
+}
+
+//
+// Tablet vertical
+//
+@media screen and (min-width: 768px) and (orientation: portrait) {
+
+}
+
+//
+// Desktop (> 1024)
+//
+@media only screen and (min-width: 1024px) {
+
+}
+

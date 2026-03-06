@@ -1,0 +1,158 @@
+//
+// Mobile first
+//
+a.btn,
+input[type=button],
+button.btn {
+  height: 32px;
+  padding: 6px;
+  display: inline-block;
+  margin: 0 4px;
+  background: transparent;
+  border: 2px solid $c-classic-bg-yellow;
+  border-radius: 4px;
+
+  font: 14px/1em $f-sans;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  color: $c-classic-bg-yellow;
+  > * {
+    text-align: center;
+  }
+
+  transition: all 0.25s ease-in-out;
+
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  cursor: pointer;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  // Hover causes delays in some devices
+  /* &:hover {
+    border-color: #fff;
+    color: #fff;
+  } */
+
+  &[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.debug-btn.btn {
+  position: absolute;
+  right: 10px;
+  bottom: 50px;
+
+  border-color: pink;
+  color: pink;
+}
+
+.btn-score {
+  display: block;
+  width: $b-mobile; height: $b-mobile;
+  border: 2px solid #FFFFFF;
+  border-radius: 4px;
+  background-color: transparent;
+  padding: 0 0 8px 0;
+
+  justify-content: center;
+  align-items: center;
+
+  font-size: 0px;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: auto 28px ;
+
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+
+  // box-shadow: inset 0 -4px 0 rgba(0,0,0,0.25);
+
+  touch-action: manipulation;
+  -webkit-appearance: none;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  &.btn-add {
+    background-image: url(/static/img/plus-solid-white.svg);
+  }
+  &.btn-substract {
+    background-image: url(/static/img/minus-solid-white.svg);
+  }
+
+  &[disabled] {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.iOS-device {
+  .btn-score {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+  }
+}
+
+//
+// Orientacion apaisada / Landscape mobile
+//
+@media screen and (orientation: landscape) {
+
+}
+
+//
+// Tablet
+//
+@media screen and (min-width: 768px) {
+  a.btn,
+  input[type=button],
+  button.btn {
+    height: 40px;
+    min-width: 220px;
+    padding: 8px 20px;
+  }
+  button.dg-btn {
+    min-width: 0;
+  }
+}
+
+//
+// Tablet Horizontal
+//
+@media screen and (min-width: 768px) and (orientation: landscape) {
+  .btn-score {
+    display: block;
+    width: $b-tablet; height: $b-tablet;
+  }
+}
+
+//
+// Tablet vertical
+//
+@media screen and (min-width: 768px) and (orientation: portrait) {
+
+}
+
+//
+// Desktop (> 1024)
+//
+@media only screen and (min-width: 1024px) {
+
+}

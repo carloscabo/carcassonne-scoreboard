@@ -1,0 +1,209 @@
+html {
+  width: 100%;
+  touch-action: manipulation;
+  // height: 100%;
+}
+
+body {
+  width: 100%;
+  position: relative;
+}
+
+.view-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+  max-height: -moz-available; /* WebKit-based browsers will ignore this. */
+  max-height: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+  max-height: fill-available;
+
+  &.view-choose-game-mode {
+    .main-header {
+      background-image: none !important;
+    }
+  }
+}
+
+.main-footer,
+.main-header {
+  width: 100%;
+  height: 48px;
+  padding: 8px;
+  background-color: $c-ui-med-bg;
+
+  background-position: 50%;
+  background-repeat: no-repeat;
+
+  text-align: center;
+
+  .wrapper {
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+}
+
+.main-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  max-width: 1024px;
+  height: calc( 100vh - 96px );
+  height: calc(var(--vh, 1vh) * 100 - 96px);
+  padding: 2px 4px;
+
+  margin: 0 auto;
+
+  background-position: 50%;
+  background-repeat: repeat;
+}
+
+.player-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 100%;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  position: relative;
+}
+
+.player-card {
+  display: flex;
+  flex-direction: row;
+  width: 100%; height: 100%;
+  max-height: calc( 33.33% - 4px );
+  margin: 2px;
+
+  background: $c-ui-bg-disabled;
+  border: 2px solid $c-ui-med-bg; //$c-ui-med-bg
+  border-radius: 4px;
+
+  touch-action: manipulation;
+  transition: all 0.35s ease-in-out;
+
+  &.leader {
+    -webkit-animation: pulse_border 2s infinite ease-in-out;
+    -o-animation: pulse_border 2s infinite ease-in-out;
+    -ms-animation: pulse_border 2s infinite ease-in-out;
+    -moz-animation: pulse_border 2s infinite ease-in-out;
+    animation: pulse_border 2s infinite ease-in-out;
+  }
+
+  input[type=checkbox] {
+    visibility: hidden;
+  }
+
+  .cta {
+    position: relative;
+    align-self: flex-end;
+    margin-top: auto;
+  }
+}
+
+.player-content-wrapper { // label
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%; height: 100%;
+  padding: 5px 5px 5px 5px;
+  cursor: pointer;
+  overflow: hidden;
+  justify-content: space-between;
+}
+
+.player-name {
+  position: absolute;
+  z-index: 1;
+  line-height: 0.9em;
+}
+
+//
+// Orientacion apaisada / Landscape mobile
+//
+@media screen and (orientation: landscape) {
+  .player-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .player-card {
+    width: calc( 50% - 4px );
+    max-height: calc( ( 100% - 8px ) / 3 );
+  }
+  .players-2,
+  .players-3,
+  .players-4 {
+    .player-card {
+      max-height: calc( ( 100% - 8px ) / 2 );
+    }
+  }
+  /*
+  .view-wrapper.classic,
+  .view-wrapper.starwars {
+    &.players-5,
+    &.players-6 {
+      .player-card {
+        .player-name {
+          margin-top: -10px;
+          visibility: hidden;
+          font-size: 0;
+        }
+      }
+    }
+  }*/
+}
+
+//
+// Tablet
+//
+@media screen and (min-width: 768px) {
+  .main-main {
+    height: calc( 100vh - 128px );
+    height: calc(var(--vh, 1vh) * 100 - 128px);
+    padding: 4px;
+  }
+  .main-footer,
+  .main-header {
+    height: 64px;
+    padding: 12px;
+  }
+  .player-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .player-card {
+    width: calc( 50% - 8px );
+    height: calc( ( 100% - 24px ) / 3 );
+    border-width: 4px;
+    margin: 4px;
+  }
+}
+
+//
+// Tablet Horizontal
+//
+@media screen and (min-width: 768px) and (orientation: portrait) {
+  .players-2 {
+    .player-card {
+      width: 100%;
+    }
+  }
+}
+
+//
+// Desktop
+//
+@media only screen and (min-width: 1024px) {
+  body {
+    // background-color: blue;
+  }
+}

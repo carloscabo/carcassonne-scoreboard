@@ -1,0 +1,184 @@
+// Fams
+$f-sans: Arial, sans-serif;
+$f-serif: Cinzel, 'Cinzel', Georgia, Times, 'Times New Roman', serif;
+
+html {
+
+}
+
+body {
+  font-family: $f-sans;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.cap-on-mobile {
+  text-transform: capitalize;
+}
+
+.screen-title {
+  padding-top: 8px;
+  font-family: $f-sans;
+  font-weight: 700;
+  font-size: 18px;
+  color: $c-ui-yellow;
+
+  text-align: center;
+  text-shadow: 0 3px 0 rgba(0,0,0,0.50);
+
+  small {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+  }
+}
+
+.player-card {
+  .cta {
+    font-size: 12px;
+    font-weight: 600;
+    text-align: right;
+  }
+}
+
+.score-table {
+  width: 100%;
+  max-width: 90%;
+  border-collapse: collapse;
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
+
+  border: 8px solid rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.5);
+
+  caption {
+    font-size: 32px;
+    margin-bottom: 4x;
+    color: #fff;
+    text-align: center;
+  }
+
+  thead {
+    tr {
+      border-color: #fff;
+    }
+  }
+
+  tr {
+    border-bottom: 2px solid #444;
+
+    &.winner {
+      td {
+        font-weight: 700;
+        color: $c-ui-yellow;
+
+        .cell-data {
+          -webkit-animation: pulse 1s infinite ease-in-out;
+          -o-animation: pulse 1s infinite ease-in-out;
+          -ms-animation: pulse 1s infinite ease-in-out;
+          -moz-animation: pulse 1s infinite ease-in-out;
+          animation: pulse 1s infinite ease-in-out;
+        }
+
+      }
+    }
+  }
+  th,
+  td {
+    padding: 4px 4px;
+    font-size: 12px;
+
+    font-weight: 500;
+    color: $c-sw-bg-white;
+
+    &.r {
+      text-align: right;
+      padding-right: 16px;
+    }
+  }
+  th {
+    color: #fff;
+    font-weight: 700;
+  }
+  td {
+
+  }
+
+  tbody {
+    tr {
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+  }
+}
+
+//
+// Orientacion apaisada / Landscape mobile
+//
+@media screen and (orientation: landscape) {
+  .score-table {
+    caption {
+      display: none;
+    }
+  }
+}
+
+//
+// Tablet
+//
+@media screen and (min-width: 768px) {
+  .cap-on-mobile {
+    text-transform: none;
+  }
+  .screen-title {
+    padding-top: 6px;
+    font-size: 24px;
+    small {
+      font-size: 18px;
+    }
+  }
+  .score-table {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 0 16px 0;
+
+    caption {
+      display: table-caption;
+      font-size: 72px;
+    }
+    th,
+    td {
+      padding: 12px 4px;
+      font-size: 24px;
+    }
+  }
+  .player-card {
+    .cta {
+      font-size: 18px;
+    }
+  }
+}
+
+//
+// Tablet Horizontal
+//
+@media screen and (min-width: 768px) and (orientation: landscape) {
+
+}
+
+//
+// Tablet vertical
+//
+@media screen and (min-width: 768px) and (orientation: portrait) {
+
+}
+
+//
+// Desktop (> 1024)
+//
+@media only screen and (min-width: 1024px) {
+
+}

@@ -1,0 +1,198 @@
+
+//
+// Mobile first
+//
+
+.view-wrapper.classic {
+  background-image: url(/static/img/bg-tile-classic.jpg);
+
+  .main-header {
+    background-image: url(/static/img/logo-carcassonne.png);
+    background-size: auto 48px ;
+    background-position: 50% calc(50% + 2px);
+  }
+
+  .player-card {
+    .player-name {
+      font-size: 14px;
+      color: #FFF;
+      text-shadow: 0 3px 0 rgba(0,0,0,0.50);
+    }
+
+    .player-img {
+      height: 60%;
+      position: absolute;
+      left: 10px; bottom: 4px;
+
+      transform: translate(0, 0);
+      transition: all 0.35s ease-in-out;
+
+      img {
+        display: block;
+        height: 100%;
+        transition: all 0.35s ease-in-out;
+        -webkit-filter: drop-shadow(-5px 10px 10px rgba(0,0,0,0.50));
+        filter: drop-shadow(-5px 10px 10px rgba(0,0,0,0.50)) grayscale(0%);
+        opacity: 1;
+      }
+    }
+
+    &.is-inactive {
+      background-color: #444;
+      .player-img {
+        transform: translate( 0, 35%);
+        img {
+          filter: grayscale(25%);
+          opacity: 0.5;
+        }
+      }
+      .player-name {
+        color: #fff;
+        text-shadow: 0 0 0 transparent;
+      }
+      .cta {
+        color: #fff;
+      }
+    }
+  }
+
+  .player-black {
+    background-color: $c-classic-bg-black;
+  }
+  .player-pink {
+    background-color: $c-classic-bg-pink;
+  }
+  .player-red {
+    background-color: $c-classic-bg-red;
+  }
+  .player-yellow {
+    background-color: $c-classic-bg-yellow;
+    .player-name {
+      color: #000000;
+      text-shadow: 0 0 0 transparent;
+    }
+    .cta {
+      color: #000000;
+    }
+    .score-control-wrapper {
+      color: #000;
+      .additional-score {
+        border-color: #000;
+      }
+      .btn-score {
+        border-color: #000;
+        color: #000;
+        &.btn-add {
+          background-image: url(/static/img/plus-solid-black.svg);
+        }
+        &.btn-substract {
+          background-image: url(/static/img/minus-solid-black.svg);
+        }
+      }
+    }
+  }
+  .player-green {
+    background-color: $c-classic-bg-green;
+    .player-name {
+      color: #000000;
+      text-shadow: 0 0 0 transparent;
+    }
+    .cta {
+      color: #000000;
+    }
+    .score-control-wrapper {
+      color: #000;
+      .additional-score {
+        border-color: #000;
+      }
+      .btn-score {
+        border-color: #000;
+        color: #000;
+        &.btn-add {
+          background-image: url(/static/img/plus-solid-black.svg);
+        }
+        &.btn-substract {
+          background-image: url(/static/img/minus-solid-black.svg);
+        }
+      }
+    }
+  }
+  .player-blue {
+    background-color: $c-classic-bg-blue;
+  }
+
+  .score-thumb {
+    img {
+      transform: translate(-3px, 7px) scale( 1.1 );
+    }
+  }
+}
+
+.score-thumb-yellow {
+  background-color: $c-classic-bg-yellow;
+}
+.score-thumb-pink {
+  background-color: $c-classic-bg-pink;
+}
+.score-thumb-blue {
+  background-color: $c-classic-bg-blue;
+}
+.score-thumb-black {
+  background-color: $c-classic-bg-black;
+}
+.score-thumb-green {
+  background-color: $c-classic-bg-green;
+}
+.score-thumb-red {
+  background-color: $c-classic-bg-red;
+}
+
+
+//
+// Orientacion apaisada / Landscape mobile
+//
+@media screen and (orientation: landscape) {
+  .view-wrapper.classic {
+
+  }
+}
+
+//
+// Tablet
+//
+@media screen and (min-width: 768px) {
+  .view-wrapper.classic {
+    .main-header {
+      background-size: auto 64px ;
+    }
+    .player-card {
+      .player-img {
+        left: 16px; bottom: 20px;
+      }
+      .player-name {
+        font-size: 28px;
+      }
+    }
+  }
+}
+
+//
+// Tablet Horizontal
+//
+@media screen and (min-width: 768px) and (orientation: landscape) {
+
+}
+
+//
+// Tablet vertical
+//
+@media screen and (min-width: 768px) and (orientation: portrait) {
+
+}
+
+//
+// Desktop (> 1024)
+//
+@media only screen and (min-width: 1024px) {
+
+}
