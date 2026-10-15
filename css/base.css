@@ -1,0 +1,44 @@
+/* Helpers, animations and global body styles (from mixins.scss and app.scss) */
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+@keyframes pulse_border {
+  0% { border-color: var(--c-ui-med-bg); }
+  50% { border-color: #fff; }
+  100% { border-color: var(--c-ui-med-bg); }
+}
+
+/* Alpine: hide elements until initialized */
+[x-cloak] {
+  display: none !important;
+}
+
+body {
+  overflow: hidden;
+  background-color: var(--c-ui-dark-bg);
+  background-position: 50%;
+  background-repeat: repeat;
+
+  color: #fff;
+}
+
+/*
+  Mobile
+*/
+@media only screen and (max-width: 767px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}

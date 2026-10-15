@@ -1,13 +1,14 @@
-//
-// Mobile first
-//
+/*
+  Mobile first
+*/
 .view-choose-game-mode {
   .select-game {
     display: block;
-    width: 100%; height: 200px;
+    width: 100%;
+    height: 200px;
     max-width: 480px;
     margin: 8px 0;
-    background: $c-ui-dark-bg;
+    background: var(--c-ui-dark-bg);
     border: 4px solid #242424;
     border-radius: 4px;
 
@@ -18,7 +19,7 @@
     }
 
     &.is-selected {
-      border-color: $c-ui-yellow;
+      border-color: var(--c-ui-yellow);
     }
 
     &.is-disabled {
@@ -26,14 +27,14 @@
     }
 
     &.classic {
-      background-image: url(/static/img/logo-carcassonne.png), url(/static/img/bg-tile-classic.png);
+      background-image: url(../static/img/logo-carcassonne.png), url(../static/img/bg-tile-classic.png);
       background-position: 50%, 50%;
       background-repeat: no-repeat, repeat;
-      background-size: calc( 100% - 40px ) auto, auto;
+      background-size: calc(100% - 40px) auto, auto;
     }
 
     &.starwars {
-      background-image: url(/static/img/logo-carcassonne-starwars.png), url(/static/img/bg-tile-starwars.jpg);
+      background-image: url(../static/img/logo-carcassonne-starwars.png), url(../static/img/bg-tile-starwars.jpg);
       background-position: 50%, 50%;
       background-repeat: no-repeat, repeat;
       background-size: auto 80%, auto;
@@ -41,9 +42,9 @@
   }
 }
 
-//
-// Orientacion apaisada / Landscape mobile
-//
+/*
+  Orientacion apaisada / Landscape mobile
+*/
 @media screen and (orientation: landscape) {
   .view-choose-game-mode {
     .select-game {
@@ -57,9 +58,9 @@
   }
 }
 
-//
-// Tablet
-//
+/*
+  Tablet
+*/
 @media screen and (min-width: 768px) {
   .view-choose-game-mode {
     .select-game {
@@ -72,25 +73,3 @@
     }
   }
 }
-
-//
-// Tablet Horizontal
-//
-@media screen and (min-width: 768px) and (orientation: landscape) {
-
-}
-
-//
-// Tablet vertical
-//
-@media screen and (min-width: 768px) and (orientation: portrait) {
-
-}
-
-//
-// Desktop (> 1024)
-//
-@media only screen and (min-width: 1024px) {
-
-}
-

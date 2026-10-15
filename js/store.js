@@ -1,200 +1,114 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import createPersistedState from 'vuex-persistedstate';
+// Game state (replaces the Vuex store). Persisted to localStorage via @alpinejs/persist.
 
-Vue.use(Vuex);
+const GAME_MODES = ['starwars', 'classic']; // 0 -> sw, 1 -> classic
 
-export default new Vuex.Store({
-  plugins: [
-    createPersistedState() // Guarda en LocalStorage
-  ],
-  state: {
+// name[0] = StarWars name, name[1] = Classic name
+const DEFAULT_PLAYERS = [
+  { color: 'yellow', name: ['', 'Yellow'], score: 0, active: false, available_in: [1] },
+  { color: 'pink', name: ['', 'Pink'], score: 0, active: false, available_in: [1] },
+  { color: 'blue', name: ['', 'Blue'], score: 0, active: false, available_in: [1] },
+  { color: 'black', name: ['Darth Vader', 'Black'], score: 0, active: false, available_in: [0, 1], end_music: 'empire' },
+  { color: 'green', name: ['Yoda', 'Green'], score: 0, active: false, available_in: [0, 1], end_music: 'rebels' },
+  { color: 'red', name: ['Luke Skywalker', 'Red'], score: 0, active: false, available_in: [0, 1], end_music: 'luke' },
+  { color: 'orange', name: ['Boba Fett', ''], score: 0, active: false, available_in: [0], end_music: 'bounty' },
+  { color: 'white', name: ['Stormtrooper', ''], score: 0, active: false, available_in: [0], end_music: 'empire' }
+];
+
+document.addEventListener('alpine:init', () => {
+  Alpine.store('game', {
     debug_mode: false,
 
-    // Posible states
-    // "choosing_mode" -> Eligiedo modo de juego
-    // "choosing_players" -> Eligiedo jugadores
+    // Possible states
+    // "choosing_mode" -> Eligiendo modo de juego
+    // "choosing_players" -> Eligiendo jugadores
     // "playing" -> Juego corriendo, partida normal
     // "ended" -> Juego terminado, mostrar vencedor, volver a jugar
-    game_state: "choosing_mode",
-    game_modes: ["starwars", "classic"],
-    current_game_mode: -1, // 0 -> sw, 1 -> classic
-    /* playerGroups: [
-      [3, 4, 5, 6, 7], // Sw
-      [0, 1, 2, 3, 4, 5] // Classic
-    ], */
-    players: [
-      {
-        color: "yellow",
-        name: [
-          '',
-          'Yellow'
-        ],
-        score: 0,
-        active: false,
-        available_in: [1]
-      },
-      {
-        color: "pink",
-        name: [
-          '',
-          'Pink'
-        ],
-        score: 0,
-        active: false,
-        available_in: [1]
-      },
-      {
-        color: "blue",
-        name: [
-          '',
-          'Blue'
-        ],
-        score: 0,
-        active: false,
-        available_in: [1]
-      },
-      {
-        color: "black",
-        name: [
-          'Darth Vader',
-          'Black'
-        ],
-        score: 0,
-        active: false,
-        available_in: [0, 1],
-        end_music: "empire"
-      },
-      {
-        color: "green",
-        name: [
-          'Yoda',
-          'Green'
-        ],
-        score: 0,
-        active: false,
-        available_in: [0, 1],
-        end_music: 'rebels'
-      },
-      {
-        color: "red",
-        name: [
-          'Luke Skywalker',
-          'Red'
-        ],
-        score: 0,
-        active: false,
-        available_in: [0, 1],
-        end_music: 'luke'
-      },
-      {
-        color: "orange",
-        name: [
-          'Boba Fett',
-          ''
-        ],
-        score: 0,
-        active: false,
-        available_in: [0],
-        end_music: 'bounty'
-      },
-      {
-        color: "white",
-        name: [
-          'Stormtrooper',
-          ''
-        ],
-        score: 0,
-        active: false,
-        available_in: [0],
-        end_music: "empire"
-      }
-    ]
-  },
-  getters: {
-    availablePlayers: (state) => {
-      return state.players.filter(
-        (player) => {
-          return player.available_in.includes(state.current_game_mode)
-        }
-      )
+    game_state: Alpine.$persist('choosing_mode').as('carcassonne_v2_game_state'),
+    game_modes: GAME_MODES,
+    current_game_mode: Alpine.$persist(-1).as('carcassonne_v2_game_mode'),
+    // $persist serializes with JSON.stringify inside an effect, so nested
+    // changes (player.score, player.active) are persisted too.
+    players: Alpine.$persist(structuredClone(DEFAULT_PLAYERS)).as('carcassonne_v2_players'),
+
+    // Getters
+
+    get isStarWars() {
+      return this.current_game_mode === 0;
     },
-    activePlayers: (state, getters) => {
-      return getters.availablePlayers.filter(
-        (player) => {
-          return player.active
-        }
-      )
+
+    get isClassic() {
+      return this.current_game_mode === 1;
     },
-    playersScoreSum: (state, getters) => {
-      let total_score_sum = 0;
-      getters.availablePlayers.forEach((p, idx) => {
-        total_score_sum += p.score;
-      })
-      return total_score_sum;
+
+    get availablePlayers() {
+      return this.players.filter(p => p.available_in.includes(this.current_game_mode));
     },
-    getTopScore: (state, getters) => {
-      return Math.max.apply(
-        Math,
-        getters.activePlayers.map(function (obj) {
-          return obj.score;
-        })
-      );
+
+    get activePlayers() {
+      return this.availablePlayers.filter(p => p.active);
+    },
+
+    get playersScoreSum() {
+      return this.availablePlayers.reduce((sum, p) => sum + p.score, 0);
+    },
+
+    get topScore() {
+      return Math.max(...this.activePlayers.map(p => p.score));
+    },
+
+    get sortedActivePlayers() {
+      return [...this.activePlayers].sort((a, b) => b.score - a.score);
+    },
+
+    // Helpers
+
+    playerName(player) {
+      return player.name[this.current_game_mode];
+    },
+
+    playerImg(player) {
+      return `static/img/${this.current_game_mode}-${player.color}.png`;
+    },
+
+    // Mutations / actions
+
+    setGameMode(mode) {
+      this.current_game_mode = parseInt(mode, 10);
+    },
+
+    setGameState(state) {
+      this.game_state = state;
+    },
+
+    activatePlayer(player, value) {
+      player.active = value;
+    },
+
+    updatePlayerScore(player, value) {
+      player.score = Math.max(0, player.score + parseInt(value, 10));
+    },
+
+    resetPlayerScore(player) {
+      player.score = 0;
+    },
+
+    resetPlayersScore() {
+      this.players.forEach(p => p.score = 0);
+    },
+
+    resetPlayersStatus() {
+      this.players.forEach(p => p.active = false);
+    },
+
+    resetGame() {
+      this.game_state = 'choosing_mode';
+      this.current_game_mode = -1;
+    },
+
+    initializeGame() {
+      this.game_state = 'choosing_mode';
+      this.resetPlayersScore();
+      this.resetPlayersStatus();
     }
-  },
-  mutations: {
-    RESET_GAME: state => {
-      state.game_state = 'choosing_mode';
-      state.current_game_mode = -1;
-    },
-
-    INIT_GAME: (state) => {
-      state.game_state = 'choosing_mode';
-      //state.snd['start'] = "./static/start-01.mp3";
-    },
-
-    RESET_PLAYER_SCORE: (state, player) => state.players.find(p => p.color == player.color).score = 0,
-
-    RESET_PLAYERS_SCORE: state => state.players.forEach(player => player.score = 0),
-
-    RESET_PLAYERS_STATUS: state => state.players.forEach(player => player.active = false),
-
-    SET_GAME_MODE(state, current_game_mode) {
-      state.current_game_mode = parseInt(current_game_mode, 10);
-    },
-
-    SET_GAME_STATE(state, game_state) {
-      state.game_state = game_state;
-    },
-
-    UPDATE_PLAYER_SCORE(state, { value, player }) {
-      let new_score = player.score + parseInt(value, 10);
-      if (new_score < 0) {
-        new_score = 0;
-      }
-      state.players.find(p => p.color == player.color).score = new_score;
-    },
-
-    ACTIVATE_PLAYER(state, { value, player }) {
-      state.players.find(p => p.color == player.color).active = value;
-    },
-
-    INITIALICE_SOUNDS(state) {
-      console.log('Add sounds');
-      // state.sounds = new Howl({
-      //   src: ["./sounds/start-01.mp3"]
-      // })
-    }
-  },
-  actions: {
-    initializeGame: (ctx) => {
-      ctx.commit('INIT_GAME');
-      ctx.commit('RESET_PLAYERS_SCORE');
-      ctx.commit('RESET_PLAYERS_STATUS');
-    },
-    resetGame: (ctx) => {
-      ctx.commit('RESET_GAME');
-    }
-  }
-
+  });
 });

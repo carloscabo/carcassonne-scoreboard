@@ -1,0 +1,37 @@
+:root {
+  /* Fonts */
+  --f-sans: Arial, sans-serif;
+  --f-serif: Cinzel, 'Cinzel', Georgia, Times, 'Times New Roman', serif;
+
+  /* Colors */
+  --c-ui-dark-bg: #161616;
+  --c-ui-med-bg: #242424;
+  --c-ui-bg-disabled: #71706A;
+  --c-ui-disabled: #666;
+  --c-ui-yellow: #FFE81F;
+
+  /* Classic */
+  --c-classic-bg-red: #FF4242;
+  --c-classic-bg-black: #71706A;
+  --c-classic-bg-blue: #1B76E2;
+  --c-classic-bg-pink: #FF63FD;
+  --c-classic-bg-green: #A3DB39;
+  --c-classic-bg-yellow: #FFE81F;
+
+  /* SW */
+  --c-sw-bg-red: #FF2E1E;
+  --c-sw-bg-black: #71706A;
+  --c-sw-bg-green: #9DE21B;
+  --c-sw-bg-white: #FFFFFD;
+  --c-sw-bg-orange: #FFA006;
+
+  /* Buttons */
+  --b-mobile: 40px;
+  --b-tablet: 64px;
+
+  /*
+    Responsive breakpoints (custom properties can't be used inside media
+    queries, so they are written literally in each file):
+    mobile: max-width 767px / tablet: min-width 768px / desktop: min-width 1024px
+  */
+}

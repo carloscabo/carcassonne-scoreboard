@@ -1,0 +1,224 @@
+.view-wrapper.starwars {
+  background-image: url(../static/img/bg-tile-starwars.jpg);
+
+  .main-header {
+    background-image: url(../static/img/logo-starwars.svg);
+    background-size: auto 48px;
+  }
+
+  .player-card {
+    background-repeat:
+      no-repeat,
+      no-repeat,
+      no-repeat;
+    background-position:
+      right 5px top 4px, /* Badge */
+      top right, /* Corner */
+      -80% top; /* Big badge BG */
+    background-size:
+      auto 20px,
+      auto 40px,
+      auto 220%;
+
+    .player-name {
+      font-family: var(--f-serif);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: #FFF;
+      text-shadow: 0 3px 0 rgba(0,0,0,0.50);
+    }
+
+    .player-img {
+      height: 90%;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      overflow: hidden;
+
+      transform: translate(0, 0);
+      transition: all 0.35s ease-in-out;
+
+      img {
+        display: block;
+        height: 100%;
+        transition: all 0.35s ease-in-out;
+      }
+    }
+
+    &.is-inactive {
+      background-color: #444;
+      .player-name {
+        color: #FFF;
+        text-shadow: 0 3px 0 rgba(0,0,0,0.50);
+      }
+      .cta {
+        color: #ffffff;
+      }
+      .player-img {
+        transform: translate(calc(100%), 0);
+        img {
+          filter: grayscale(100%) contrast(0) brightness(0.20);
+        }
+      }
+    }
+  }
+
+  .player-black {
+    background-color: var(--c-sw-bg-black);
+    background-image:
+      url(../static/img/badge-empire.svg),
+      url(../static/img/top-right-corner.svg),
+      url(../static/img/badge-empire-black.svg);
+    .score-control-wrapper {
+      .additional-score {
+        background-color: var(--c-sw-bg-black);
+      }
+      .btn-score {
+        background-color: var(--c-sw-bg-black);
+      }
+    }
+  }
+
+  .player-green {
+    background-color: var(--c-sw-bg-green);
+    background-image:
+      url(../static/img/badge-rebel.svg),
+      url(../static/img/top-right-corner.svg),
+      url(../static/img/badge-rebel-black.svg);
+
+    .score-control-wrapper {
+      color: #000;
+      .additional-score {
+        border-color: #000;
+        background-color: var(--c-sw-bg-green);
+      }
+      .btn-score {
+        border-color: #000;
+        color: #000;
+        background-color: var(--c-sw-bg-green);
+        &.btn-add {
+          background-image: url(../static/img/plus-solid-black.svg);
+        }
+        &.btn-substract {
+          background-image: url(../static/img/minus-solid-black.svg);
+        }
+      }
+    }
+  }
+
+  .player-red {
+    background-color: var(--c-sw-bg-red);
+    background-image:
+      url(../static/img/badge-rebel.svg),
+      url(../static/img/top-right-corner.svg),
+      url(../static/img/badge-rebel-black.svg);
+    .score-control-wrapper {
+      .additional-score {
+        background-color: var(--c-sw-bg-red);
+      }
+      .btn-score {
+        background-color: var(--c-sw-bg-red);
+      }
+    }
+  }
+
+  .player-orange {
+    background-color: var(--c-sw-bg-orange);
+    background-image:
+      url(../static/img/badge-boba.svg),
+      url(../static/img/top-right-corner.svg),
+      url(../static/img/badge-boba-black.svg);
+    background-position:
+      right 8px top 6px, /* Badge */
+      top right, /* Corner */
+      130% -5%; /* Big badge BG */
+    .score-control-wrapper {
+      .additional-score {
+        background-color: var(--c-sw-bg-orange);
+      }
+      .btn-score {
+        background-color: var(--c-sw-bg-orange);
+      }
+    }
+  }
+
+  .player-white {
+    background-color: #fff;
+    background-image:
+      url(../static/img/badge-empire.svg),
+      url(../static/img/top-right-corner.svg),
+      url(../static/img/badge-empire-black.svg);
+    .player-name {
+      color: #000000;
+      text-shadow: 0 0 0 transparent;
+    }
+    .cta {
+      color: #000000;
+    }
+    .score-control-wrapper {
+      color: #000;
+      .additional-score {
+        background-color: #fff;
+        border-color: #000;
+      }
+      .btn-score {
+        background-color: #fff;
+        border-color: #000;
+        color: #000;
+        &.btn-add {
+          background-image: url(../static/img/plus-solid-black.svg);
+        }
+        &.btn-substract {
+          background-image: url(../static/img/minus-solid-black.svg);
+        }
+      }
+    }
+  }
+}
+
+.score-thumb-black {
+  background-color: var(--c-sw-bg-black);
+}
+.score-thumb-green {
+  background-color: var(--c-sw-bg-green);
+}
+.score-thumb-red {
+  background-color: var(--c-sw-bg-red);
+}
+.score-thumb-orange {
+  background-color: var(--c-sw-bg-orange);
+}
+.score-thumb-white {
+  background-color: #fff;
+}
+
+/*
+  Tablet
+*/
+@media screen and (min-width: 768px) {
+  .view-wrapper.starwars {
+    .main-header {
+      background-size: auto 64px;
+    }
+    .player-card {
+      .player-name {
+        font-size: 24px;
+        line-height: 1.33em;
+      }
+    }
+  }
+}
+
+/*
+  Tablet vertical
+*/
+@media screen and (min-width: 768px) and (orientation: portrait) {
+  .view-wrapper.starwars {
+    .player-card {
+      .player-img {
+        height: 80%;
+      }
+    }
+  }
+}

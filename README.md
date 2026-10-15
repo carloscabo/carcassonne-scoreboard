@@ -6,37 +6,32 @@ Specially designed to be used in mobile devices and tablets. It works on desktop
 
 ![](https://repository-images.githubusercontent.com/225129639/ab351100-3704-11ea-992c-7ea7cecf24d5)
 
-## Installation
+## Tech stack
 
-```sh
-npm install
-```
+Plain HTML + CSS (native nesting) + [Alpine.js](https://alpinejs.dev/). **No build step, no Node required.** Libraries are vendored in `vendor/`.
+
+Only modern browsers are supported (Chrome/Edge 120+, Safari 17.2+, Firefox 117+).
 
 ## Run local server
 
-Available in `http://localhost:1234`
+Serve the folder with any static HTTP server, e.g.:
 
 ```sh
-parcel index.html
+python -m http.server 8000
+# or
+npx serve .
 ```
 
-## Build production
+and open `http://localhost:8000`. All paths are relative, so it also works from a subfolder.
 
-```sh
-parcel build index.html
-```
+## Deploy
 
-## Update app
-
-App is stored in Git Hub pages. To deply 
-
-```sh
-npm run build
-npm run deploy
-```
+Copy the folder to any static host (GitHub Pages from the `main` branch root, Netlify, Apache...). Nothing to build.
 
 ## Release History
 
+* 2.0.0
+  * Migrated from Vue 2 + Vuex + Parcel to Alpine.js without build. The previous version is tagged `v1-vue`.
 * 0.0.1
   * First release
 

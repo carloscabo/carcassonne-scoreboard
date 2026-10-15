@@ -1,31 +1,347 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta version="0.8-beta">
+  <meta version="2.0">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no, shrink-to-fit=no">
   <meta name="HandheldFriendly" content="true">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
   <title>Carcassonne Scoreboard</title>
   <meta property="og:site_name" content="Carcassonne Scoreboard">
   <meta property="og:title" content="Carcassonne Scoreboard">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://gamescore.app">
-  <meta property="og:image" content="/static/img/open-graph-image-1280x640.jpg">
+  <meta property="og:image" content="static/img/open-graph-image-1280x640.jpg">
   <meta property="og:description"
   content="Web application designed to manage the player's scores in Carcassonne and Carcassonne StarWars plays.">
 
-  <link href="//fonts.googleapis.com/css?family=Cinzel:400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Cinzel:400,700&display=swap" rel="stylesheet">
 
-  <link href="/static/img/favicon.png" rel="icon" type="image/png" />
+  <link href="static/img/favicon.png" rel="icon" type="image/png">
+
+  <!-- Order matters: classic.css must go after starwars.css -->
+  <link rel="stylesheet" href="css/minireset.css">
+  <link rel="stylesheet" href="css/vars.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/type.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/buttons.css">
+  <link rel="stylesheet" href="css/score-control-block.css">
+  <link rel="stylesheet" href="css/dialog.css">
+  <link rel="stylesheet" href="css/view-choose-game-mode.css">
+  <link rel="stylesheet" href="css/starwars.css">
+  <link rel="stylesheet" href="css/classic.css">
+
+  <!-- Alpine core must be the last script; all are deferred so they run in order -->
+  <script defer src="vendor/howler-2.2.4.min.js"></script>
+  <script defer src="vendor/alpine-persist-3.14.9.min.js"></script>
+  <script defer src="js/store.js"></script>
+  <script defer src="js/sounds.js"></script>
+  <script defer src="js/viewport.js"></script>
+  <script defer src="js/components.js"></script>
+  <script defer src="vendor/alpine-3.14.9.min.js"></script>
 </head>
 
 <body>
-  <div id="main-app">
+  <div id="main-app" x-data x-cloak>
 
+    <!-- ============================================================
+         choosing_mode
+         ============================================================ -->
+    <template x-if="$store.game.game_state === 'choosing_mode'">
+      <div
+        id="app-viewport"
+        class="view-wrapper view-choose-game-mode"
+        :class="{ starwars: $store.game.isStarWars, classic: $store.game.isClassic }"
+        x-data="modeSelect"
+      >
+        <header class="main-header">
+          <div class="wrapper">
+            <p class="screen-title">Select game mode</p>
+          </div>
+        </header>
 
+        <main class="main-main">
+          <label
+            class="select-game starwars"
+            :class="{ 'is-selected': $store.game.current_game_mode === 0, 'is-disabled': $store.game.current_game_mode !== 0 }"
+            title="Carcassonne Starwars"
+          >
+            <input
+              name="game-style"
+              value="0"
+              type="radio"
+              id="rb-starwars"
+              :checked="$store.game.current_game_mode === 0"
+              @change="selectMode(0)"
+            />
+          </label>
+          <label
+            class="select-game classic"
+            :class="{ 'is-selected': $store.game.current_game_mode === 1, 'is-disabled': $store.game.current_game_mode !== 1 }"
+            title="Carcassonne Classic"
+          >
+            <input
+              name="game-style"
+              value="1"
+              type="radio"
+              id="rb-classic"
+              :checked="$store.game.current_game_mode === 1"
+              @change="selectMode(1)"
+            />
+          </label>
+        </main>
+
+        <footer class="main-footer">
+          <div class="wrapper">
+            <button
+              class="btn"
+              :disabled="$store.game.current_game_mode < 0"
+              @click="choosePlayers()"
+            >Select players</button>
+          </div>
+        </footer>
+      </div>
+    </template>
+
+    <!-- ============================================================
+         choosing_players
+         ============================================================ -->
+    <template x-if="$store.game.game_state === 'choosing_players'">
+      <div
+        id="app-viewport"
+        class="view-wrapper view-playing"
+        :class="{ starwars: $store.game.isStarWars, classic: $store.game.isClassic }"
+        x-data="playersSelect"
+      >
+        <header class="main-header">
+          <div class="wrapper">
+            <button class="btn left cap-on-mobile" @click="goBack()">
+              ‹
+              <span class="hide-on-mobile">Change&nbsp;</span>mode
+            </button>
+            <p class="screen-title right cap-on-mobile">
+              <span class="hide-on-mobile">Select&nbsp;</span>players
+              <small>( <span x-text="$store.game.activePlayers.length"></span> )</small>
+            </p>
+          </div>
+        </header>
+
+        <main class="main-main">
+          <template x-if="$store.game.current_game_mode > -1">
+            <ul class="player-list">
+              <template x-for="player in $store.game.availablePlayers" :key="player.color">
+                <li
+                  class="player-card"
+                  :class="{ ['player-' + player.color]: true, 'is-inactive': !player.active }"
+                  :id="'player-' + player.color"
+                >
+                  <label class="player-content-wrapper">
+                    <div class="player-img">
+                      <img :src="$store.game.playerImg(player)" :alt="$store.game.playerName(player)" />
+                    </div>
+
+                    <p class="player-name" x-text="$store.game.playerName(player)"></p>
+
+                    <input
+                      type="checkbox"
+                      :name="'player-color-' + player.color + '-' + $store.game.current_game_mode"
+                      :id="'player-color-' + player.color + '-' + $store.game.current_game_mode"
+                      :checked="player.active"
+                      @change="togglePlayer(player, $event.target.checked)"
+                    />
+
+                    <p class="cta" x-text="player.active ? 'Ready!' : 'Click to select player'"></p>
+                  </label>
+                </li>
+              </template>
+            </ul>
+          </template>
+        </main>
+
+        <footer class="main-footer">
+          <div class="wrapper">
+            <button
+              class="btn"
+              :disabled="$store.game.activePlayers.length < 1"
+              @click="uncheckAll()"
+            >Deselect All</button>
+            <button
+              class="btn"
+              :disabled="$store.game.current_game_mode < 0 || $store.game.activePlayers.length < 2"
+              @click="startGame()"
+            >Start game</button>
+          </div>
+        </footer>
+      </div>
+    </template>
+
+    <!-- ============================================================
+         playing
+         ============================================================ -->
+    <template x-if="$store.game.game_state === 'playing'">
+      <div
+        class="view-wrapper view-choose-players"
+        :class="{ ['players-' + $store.game.activePlayers.length]: true, starwars: $store.game.isStarWars, classic: $store.game.isClassic }"
+        x-data="playingView"
+      >
+        <header class="main-header">
+          <div class="wrapper">
+            <p class="screen-title left cap-on-mobile">
+              <span class="hide-on-mobile">Total&nbsp;</span>time
+              <span id="current-playing-time" x-text="totalTime"></span>
+            </p>
+            <button
+              id="mini-timer"
+              class="btn right timer"
+              @click="toggleMiniTimer()"
+              x-text="miniTimerLabel"
+            ></button>
+          </div>
+        </header>
+
+        <main class="main-main">
+          <ul class="player-list">
+            <template x-for="player in $store.game.activePlayers" :key="player.color">
+              <li
+                class="player-card player-score"
+                x-data="scoreRow(player)"
+                :class="{ ['player-' + player.color]: true, leader: isLeader }"
+                :id="'player-score-' + player.color"
+              >
+                <div class="player-content-wrapper">
+                  <div class="player-img">
+                    <img :src="$store.game.playerImg(player)" :alt="$store.game.playerName(player)" />
+                  </div>
+
+                  <p class="player-name" x-text="$store.game.playerName(player)"></p>
+
+                  <div class="score-control-wrapper">
+                    <div class="score-current">
+                      <p class="score-title">Score</p>
+                      <p class="score-value" x-text="player.score"></p>
+                    </div>
+
+                    <div class="score-control">
+                      <label :for="'aditional-player-score-' + player.color" class="score-title">Enter value</label>
+                      <div class="row">
+                        <button
+                          class="btn-score btn-substract"
+                          :disabled="player.score === 0 || !isValidAdditional"
+                          @click="subtract()"
+                          title="Substract"
+                        ></button>
+                        <input
+                          class="additional-score"
+                          :id="'aditional-player-score-' + player.color"
+                          :name="'aditional-player-score-' + player.color"
+                          type="number"
+                          min="0"
+                          step="1"
+                          x-model.number="additional"
+                          @keyup.enter="add()"
+                        />
+                        <button
+                          class="btn-score btn-add"
+                          :disabled="!isValidAdditional"
+                          @click="add()"
+                          title="Add"
+                        ></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </template>
+          </ul>
+        </main>
+
+        <footer class="main-footer">
+          <div class="wrapper">
+            <button class="btn" @click="finishGame()">Finish game</button>
+          </div>
+        </footer>
+      </div>
+    </template>
+
+    <!-- ============================================================
+         ended
+         ============================================================ -->
+    <template x-if="$store.game.game_state === 'ended'">
+      <div
+        class="view-wrapper view-winner"
+        :class="{ starwars: $store.game.isStarWars, classic: $store.game.isClassic }"
+        x-data="endedView"
+      >
+        <header class="main-header">
+          <div class="wrapper"></div>
+        </header>
+
+        <main class="main-main">
+          <table class="score-table">
+            <caption>Ranking</caption>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Color</th>
+                <th class="r">Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <template x-for="player in $store.game.sortedActivePlayers" :key="player.color">
+                <tr :class="{ winner: $store.game.topScore === player.score }">
+                  <td>
+                    <div class="score-thumb" :class="'score-thumb-' + player.color">
+                      <img :src="$store.game.playerImg(player)" :alt="$store.game.playerName(player)" />
+                    </div>
+                  </td>
+                  <td>
+                    <span class="cell-data" x-text="$store.game.playerName(player)"></span>
+                  </td>
+                  <td>
+                    <span class="cell-data" x-text="player.color"></span>
+                  </td>
+                  <td class="score r">
+                    <span class="cell-data" x-text="player.score"></span>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </main>
+
+        <footer class="main-footer">
+          <div class="wrapper">
+            <button class="btn" @click="startNewGame()">Start new game</button>
+          </div>
+        </footer>
+      </div>
+    </template>
+
+    <template x-if="!['choosing_mode', 'choosing_players', 'playing', 'ended'].includes($store.game.game_state)">
+      <p>Something went wrong!</p>
+    </template>
+
+    <button
+      x-show="$store.game.debug_mode"
+      class="debug-btn btn"
+      @click="$store.game.resetGame()"
+    >DEBUG: Reset game</button>
   </div>
+
+  <!-- Confirmation dialog (replaces vuejs-dialog) -->
+  <dialog
+    class="confirm-dialog"
+    x-data
+    x-effect="$store.dialog.open ? ($el.open || $el.showModal()) : ($el.open && $el.close())"
+    @cancel.prevent="$store.dialog.answer(false)"
+  >
+    <p x-text="$store.dialog.message"></p>
+    <div class="dialog-actions">
+      <button class="btn" @click="$store.dialog.answer(false)" x-text="$store.dialog.cancelText"></button>
+      <button class="btn" @click="$store.dialog.answer(true)" x-text="$store.dialog.okText"></button>
+    </div>
+  </dialog>
 </body>
-<script src="./js/app.js"></script>
 </html>
