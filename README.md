@@ -1,4 +1,4 @@
-# Carcassonne Scoreboard (https://carcassonne.netlify.app/)
+# Carcassonne Scoreboard (https://carloscabo.github.io/carcassonne-scoreboard/)
 
 Small web application designed to manage the player's scores in Carcassonne and Carcassonne StarWars plays.
 
@@ -37,7 +37,7 @@ Copy the folder to any static host (GitHub Pages from the `main` branch root, Ne
 
 ## Meta
 
-Carlos Cabo – [@putuko](https://twitter.com/putuko) – carloscabo AT gmail DOT com
+Carlos Cabo – [@putuko.bsky.social](https://bsky.app/profile/putuko.bsky.social) – carloscabo AT gmail DOT com
 
 Distributed under the XYZ license. See ``LICENSE`` for more information.
 
